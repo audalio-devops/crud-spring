@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.ajrdevops.crudspring.enums.Category;
 import com.ajrdevops.crudspring.model.Course;
+import com.ajrdevops.crudspring.model.Lesson;
 import com.ajrdevops.crudspring.repository.CourseRepository;
 
 @SpringBootApplication
@@ -26,6 +27,20 @@ public class CrudSpringApplication {
 			Course c = new Course();
 			c.setName("Angular");
 			c.setCategory(Category.FRONTEND);
+			courseRepository.save(c);
+
+			Lesson lesson = new Lesson();
+			lesson.setName("Angular 1");
+			lesson.setYoutubeURL("youtube.com");
+			lesson.setCourse(c);
+			c.getLessons().add(lesson);
+
+			Lesson lesson2 = new Lesson();
+			lesson2.setName("Angular 2");
+			lesson2.setYoutubeURL("youtube2.com");
+			lesson2.setCourse(c);
+			c.getLessons().add(lesson2);
+			
 			courseRepository.save(c);
 
 			c = new Course();
