@@ -8,12 +8,13 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 public class ValueOfEnumValidator implements ConstraintValidator<ValueOfEnum, CharSequence> {
+
     private List<String> acceptedValues;
 
     @Override
     public void initialize(ValueOfEnum annotation) {
         acceptedValues = Stream.of(annotation.enumClass().getEnumConstants())
-                .map(Enum::name)
+                .map(Enum::toString)
                 .collect(Collectors.toList());
     }
 
@@ -22,8 +23,6 @@ public class ValueOfEnumValidator implements ConstraintValidator<ValueOfEnum, Ch
         if (value == null) {
             return true;
         }
-
         return acceptedValues.contains(value.toString());
     }
-
 }
