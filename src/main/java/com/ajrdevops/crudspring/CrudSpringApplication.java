@@ -27,7 +27,6 @@ public class CrudSpringApplication {
 			Course c = new Course();
 			c.setName("Angular");
 			c.setCategory(Category.FRONTEND);
-			courseRepository.save(c);
 
 			Lesson lesson = new Lesson();
 			lesson.setName("Angular 1");
@@ -46,7 +45,14 @@ public class CrudSpringApplication {
 			c = new Course();
 			c.setName("Java");
 			c.setCategory(Category.BACKEND);
+
+			Lesson lesson3 = new Lesson();
+			lesson3.setName("Java 1");
+			lesson3.setYoutubeURL("youtubeJ1.com");
+			lesson3.setCourse(c);
+			c.getLessons().add(lesson3);
 			courseRepository.save(c);
+
 
 		};
 	}
