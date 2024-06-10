@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import com.ajrdevops.crudspring.enums.Category;
 import com.ajrdevops.crudspring.model.Course;
@@ -19,6 +20,7 @@ public class CrudSpringApplication {
 
 	// apenas para inserir dados no DB
 	@Bean
+	@Profile("dev")
 	CommandLineRunner initDatabase(CourseRepository courseRepository) {
 
 		return args -> {

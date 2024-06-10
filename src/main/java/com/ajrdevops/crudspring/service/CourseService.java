@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ajrdevops.crudspring.dto.CourseDTO;
 import com.ajrdevops.crudspring.dto.mapper.CourseMapper;
