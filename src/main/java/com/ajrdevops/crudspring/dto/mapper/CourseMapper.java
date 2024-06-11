@@ -1,10 +1,15 @@
 package com.ajrdevops.crudspring.dto.mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import com.ajrdevops.crudspring.dto.CourseDTO;
+import com.ajrdevops.crudspring.dto.LessonDTO;
 import com.ajrdevops.crudspring.enums.Category;
 import com.ajrdevops.crudspring.model.Course;
+import com.ajrdevops.crudspring.model.Lesson;
 
 
 @Component
@@ -14,7 +19,12 @@ public class CourseMapper {
             return null;
         }
 
-        return new CourseDTO(course.getId(), course.getName(), course.getCategory().getValue());
+        List<LessonDTO> lessons = course.getLessons()
+                .stream()
+                .map(lesson -> new LessonDTO(lesson.getId(), lesson.getName(), lesson.getYoutubeURL()))
+                .collect(Collectors.toList());
+
+        return new CourseDTO(course.getId(), course.getName(), course.getCategory().getValue(), lessons);
     }
 
     public Course toEntity(CourseDTO courseDTO) {
@@ -28,6 +38,16 @@ public class CourseMapper {
         }
         course.setName(courseDTO.name());
         course.setCategory(convertCategoryValue(courseDTO.category()));
+
+        List<Lesson> lessons =courseDTO.lessons().stream().map(lessonDTO -> {
+            var lesson = new Lesson();
+            lesson.setId(lessonDTO.id());
+            lesson.setName(lessonDTO.name());
+            lesson.setYoutubeURL(lessonDTO.youtubeURL());
+            lesson.setCourse(course);
+            return lesson;
+        }).collect(Collectors.toList());
+        course.setLessons(lessons);
 
         return course;
     }

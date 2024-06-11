@@ -4,9 +4,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import com.ajrdevops.crudspring.enums.Category;
 import com.ajrdevops.crudspring.model.Course;
+import com.ajrdevops.crudspring.model.Lesson;
 import com.ajrdevops.crudspring.repository.CourseRepository;
 
 @SpringBootApplication
@@ -18,20 +20,32 @@ public class CrudSpringApplication {
 
 	// apenas para inserir dados no DB
 	@Bean
+	@Profile("dev")
 	CommandLineRunner initDatabase(CourseRepository courseRepository) {
 
 		return args -> {
 			courseRepository.deleteAll();
 
-			Course c = new Course();
-			c.setName("Angular");
-			c.setCategory(Category.FRONTEND);
-			courseRepository.save(c);
+			for (int i = 0; i < 20; i++) {
+				
+				Course c = new Course();
+				c.setName("Course " + i);
+				c.setCategory(Category.FRONTEND);
 
-			c = new Course();
-			c.setName("Java");
-			c.setCategory(Category.BACKEND);
-			courseRepository.save(c);
+				Lesson lesson = new Lesson();
+				lesson.setName("Angular 1");
+				lesson.setYoutubeURL("youtube.com");
+				lesson.setCourse(c);
+				c.getLessons().add(lesson);
+
+				Lesson lesson2 = new Lesson();
+				lesson2.setName("Angular 2");
+				lesson2.setYoutubeURL("youtube2.com");
+				lesson2.setCourse(c);
+				c.getLessons().add(lesson2);
+				
+				courseRepository.save(c);
+			}
 
 		};
 	}
